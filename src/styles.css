@@ -1,0 +1,82 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import "~font-awesome/css/font-awesome.css";
+
+@font-face {
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style : normal;
+    src : url("~font-awesome/fonts/fontawesome-webfont.eot");
+    src : url("~font-awesome/fonts/fontawesome-webfont.eot") format("embedded-opentype"),
+         url("~font-awesome/fonts/fontawesome-webfont.woff2") format("woff2"),
+         url("~font-awesome/fonts/fontawesome-webfont.woff") format("woff"),
+         url("~font-awesome/fonts/fontawesome-webfont.ttf") format("truetype"),
+         url("~font-awesome/fonts/fontawesome-webfont.svg") format("svg");
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.btn-chini {
+  background-color: #ff0080;
+  border: white;
+  color: white;
+}
+
+.color-chini {
+  color: #ff0080;
+}
+
+.navbar-light .navbar-brand {
+  color: #ff0080;
+}
+
+.top-space {
+  margin-top: 4%;
+}
+
+.btn-outline-chini {
+  color: #ff0080;
+  border-color: #ff0080;
+}
+
+.btn-outline-chini:hover {
+  color: #ffffff;
+  background-color: #ff0080;
+}
+
+.show>.btn-outline-chini.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 0, 242, 0.5);
+  color: #ffffff;
+  background-color: #ff0080;
+  border-color: #ff0080;
+}
+
+.show>.btn-outline-primary.dropdown-toggle {
+  color: #ffffff;
+  background-color: #ff0080;
+  border-color: #ff0080;
+}
+
+.btn-outline-chini .dropdown-toggle {
+  color: #ffffff;
+  background-color: #ff0080;
+  border-color: #ff0080;
+}
+
+
+.img-chini-type {
+  height: 100px;
+  width: auto;
+}
+
+.img-thumbnail-chini {
+    padding: .25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    width: 150px;
+    height: auto;
+    object-fit: cover;
+    max-height: 100px;
+}

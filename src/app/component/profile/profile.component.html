@@ -1,0 +1,62 @@
+<main role="main" class="flex-shrink-0" style="padding: 20px;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <div class="list-group">
+          <app-sidebar-profile></app-sidebar-profile>
+        </div>
+      </div>
+      <div class="col-9">
+        <section class="jumbotron text-center">
+          <h3 class="color-chini">Información del Usuario</h3>
+          <img [src]="(imgShow)? imgShow : 'assets/chinilogo.png'" class="img-profile" alt="" loading="lazy">
+          <br/>
+          <button (click)="fileupload.click()" accept="image/*" type="button" class="btn btn-link">Cambiar Imagen</button>
+          <input required type="file" #fileupload (change)="fileChange(fileupload.files)" style="display: none;">
+          <br/>
+          <div *ngIf="hasErrorInfo" class="alert alert-danger fade show" role="alert" style="margin: 1%;">
+            <strong>Ha ocurrido un error!</strong> intenta nuevamente.
+            <button type="button" class="close" aria-label="Close" (click)="closeAlert(1)" >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form [formGroup]="info" class="text-left top-space">
+            <div class="form-group">
+              <label for="name">Su Nombre</label>
+              <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': (nameFormControl.errors && nameFormControl.touched) || (nameFormControl.errors && submittedInfo), 'is-valid': nameFormControl.valid }" class="form-control" id="name">
+              <div *ngIf="nameFormControl.errors" class="invalid-feedback">
+                <div *ngIf="nameFormControl.errors.required">El campo <b>Nombre</b> es requerido.</div>
+                <div *ngIf="nameFormControl.errors.minLength">El campo <b>Nombre</b> tiene menos de 4 caracteres.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Su Email</label>
+              <input type="email" formControlName="email" [ngClass]="{ 'is-invalid': (emailFormControl.errors && emailFormControl.touched) || (emailFormControl.errors && submittedInfo), 'is-valid': emailFormControl.valid }" class="form-control" id="email" readonly>
+              <div *ngIf="emailFormControl.errors" class="invalid-feedback">
+                <div *ngIf="emailFormControl.errors.required">El campo <b>Email</b> es requerido.</div>
+                <div *ngIf="emailFormControl.errors.email">El campo <b>Email</b> no tiene el formato de un correo electrónico.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="telephone">Su Teléfono</label>
+              <input type="text" formControlName="telephone" [ngClass]="{ 'is-invalid': (telephoneFormControl.errors && telephoneFormControl.touched) || (telephoneFormControl.errors && submittedInfo), 'is-valid': telephoneFormControl.valid && telephoneFormControl.value != null }" class="form-control" id="telephone">
+              <div *ngIf="telephoneFormControl.errors" class="invalid-feedback">
+                <div *ngIf="telephoneFormControl.errors.pattern">El campo <b>Teléfono</b> no tiene el formato de un número de teléfono Chileno.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="birthday">Su Fecha de Nacimiento</label>
+              <input type="date" formControlName="birthday" [ngClass]="{ 'is-invalid': (telephoneFormControl.errors && telephoneFormControl.touched) || (telephoneFormControl.errors && submittedInfo), 'is-valid': birthdayFormControl.valid && birthdayFormControl.value != null }" class="form-control" id="birthday">
+            </div>
+            <div class="row top-space">
+              <div class="col">
+                <button type="button" class="btn btn-chini" (click)="submitInfo()">Guardar</button>
+              </div>
+            </div>
+          </form>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,68 @@
+<main role="main" class="flex-shrink-0" style="padding: 20px;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <app-sidebar></app-sidebar>
+      </div>
+      <div class="col-9">
+        <section class="jumbotron text-center">
+          <h3 class="color-chini">Agregar Tipo de Imagen</h3>
+          <div *ngIf="hasError" class="alert alert-danger fade show" role="alert" style="margin: 1%;">
+            <strong>Ha ocurrido un error!</strong> intenta nuevamente.
+            <button type="button" class="close" aria-label="Close" (click)="closeAlert(1)" >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div *ngIf="isSuccess" class="alert alert-success fade show" role="alert" style="margin: 1%;">
+            <strong>Tipo de Imagen</strong> creada exitosamente.
+            <button type="button" class="close" aria-label="Close" (click)="closeAlert(2)" >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form [formGroup]="imageTypeForm" class="text-left top-space">
+            <div class="form-group">
+              <label for="name">Nombre del Tipo de Imagen</label>
+              <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': (nameFormControl.errors && nameFormControl.touched) || (nameFormControl.errors && submitted), 'is-valid': nameFormControl.valid }" class="form-control" id="name">
+              <div *ngIf="nameFormControl.errors" class="invalid-feedback">
+                <div *ngIf="nameFormControl.errors.required">El campo <b>Nombre</b> es requerido.</div>
+                <div *ngIf="nameFormControl.errors.minLength">El campo <b>Nombre</b> tiene menos de 4 caracteres.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="description">Descripción del Tipo de Imagen</label>
+              <input type="text" formControlName="description" [ngClass]="{ 'is-invalid': (descriptionFormControl.errors && descriptionFormControl.touched) || (descriptionFormControl.errors && submitted), 'is-valid': descriptionFormControl.valid }" class="form-control" id="description">
+              <div *ngIf="descriptionFormControl.errors" class="invalid-feedback">
+                <div *ngIf="descriptionFormControl.errors.required">El campo <b>Descripción</b> es requerido.</div>
+                <div *ngIf="descriptionFormControl.errors.minLength">El campo <b>Descripción</b> tiene menos de 4 caracteres.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="extra_price">Precio Extra por Tipo de Imagen</label>
+              <input type="number" formControlName="extra_price" [ngClass]="{ 'is-invalid': (extraPriceFormControl.errors && extraPriceFormControl.touched) || (extraPriceFormControl.errors && submitted), 'is-valid': extraPriceFormControl.valid }" class="form-control" id="extra_price">
+              <div *ngIf="extraPriceFormControl.errors" class="invalid-feedback">
+                <div *ngIf="extraPriceFormControl.errors.min">El campo <b>Precio Extra</b> debe tener un valor mayor a $0.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="image_side_id">Ubicación de la Imagen en la Hoja</label>
+              <select type="text" formControlName="image_side_id" [ngClass]="{ 'is-invalid': (imageSideIdFormControl.errors && imageSideIdFormControl.touched) || (imageSideIdFormControl.errors && submitted), 'is-valid': imageSideIdFormControl.valid }" class="form-control" id="image_side_id">
+                <option *ngFor="let imageSide of imageSides" [value]='imageSide.id' >{{imageSide.name}}</option>
+              </select>
+              <div *ngIf="imageSideIdFormControl.errors" class="invalid-feedback">
+                <div *ngIf="imageSideIdFormControl.errors.required">El campo <b>Ubicación</b> es requerido.</div>
+              </div>
+            </div>
+            <div class="row top-space">
+              <div class="col-2">
+                <button type="button" class="btn btn-chini" (click)="submit()">Crear</button>
+              </div>
+              <div class="col-2">
+                <button type="button" class="btn btn-secondary" (click)="clean()">Limpiar</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>

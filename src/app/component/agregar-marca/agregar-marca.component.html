@@ -1,0 +1,52 @@
+<main role="main" class="flex-shrink-0" style="padding: 20px;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <app-sidebar></app-sidebar>
+      </div>
+      <div class="col-9">
+        <section class="jumbotron text-center">
+          <h3 class="color-chini">Agregar Marca</h3>
+          <div *ngIf="hasError" class="alert alert-danger fade show" role="alert" style="margin: 1%;">
+            <strong>Ha ocurrido un error!</strong> intenta nuevamente.
+            <button type="button" class="close" aria-label="Close" (click)="closeAlert(1)" >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div *ngIf="isSuccess" class="alert alert-success fade show" role="alert" style="margin: 1%;">
+            <strong>Marca</strong> creada exitosamente.
+            <button type="button" class="close" aria-label="Close" (click)="closeAlert(2)" >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form [formGroup]="brandForm" class="text-left top-space">
+            <div class="form-group">
+              <label for="name">Nombre de la Marca</label>
+              <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': (nameFormControl.errors && nameFormControl.touched) || (nameFormControl.errors && submitted), 'is-valid': nameFormControl.valid }" class="form-control" id="name">
+              <div *ngIf="nameFormControl.errors" class="invalid-feedback">
+                <div *ngIf="nameFormControl.errors.required">El campo <b>Nombre</b> es requerido.</div>
+                <div *ngIf="nameFormControl.errors.minLength">El campo <b>Nombre</b> tiene menos de 4 caracteres.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="description">Descripción de Marca</label>
+              <input type="text" formControlName="description" [ngClass]="{ 'is-invalid': (descriptionFormControl.errors && descriptionFormControl.touched) || (descriptionFormControl.errors && submitted), 'is-valid': descriptionFormControl.valid }" class="form-control" id="description">
+              <div *ngIf="descriptionFormControl.errors" class="invalid-feedback">
+                <div *ngIf="descriptionFormControl.errors.required">El campo <b>Descripción</b> es requerido.</div>
+                <div *ngIf="descriptionFormControl.errors.minLength">El campo <b>Descripción</b> tiene menos de 4 caracteres.</div>
+              </div>
+            </div>
+            <div class="row top-space">
+              <div class="col-2">
+                <button type="button" class="btn btn-chini" (click)="submit()">Crear</button>
+              </div>
+              <div class="col-2">
+                <button type="button" class="btn btn-secondary" (click)="clean()">Limpiar</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>

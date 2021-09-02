@@ -1,0 +1,116 @@
+<main role="main" class="flex-shrink-0" style="padding: 20px;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <app-sidebar></app-sidebar>
+      </div>
+      <div class="col-9">
+        <section class="jumbotron text-center">
+          <h3 class="color-chini">Agregar Tipo de Característica de una Categoría</h3>
+          <div *ngIf="hasError" class="alert alert-danger fade show" role="alert" style="margin: 1%;">
+            <strong>Ha ocurrido un error!</strong> intenta nuevamente.
+            <button type="button" class="close" aria-label="Close" (click)="closeAlert(1)" >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div *ngIf="isSuccess" class="alert alert-success fade show" role="alert" style="margin: 1%;">
+            <strong>Tipo de Característica de una Categoría</strong> creada exitosamente.
+            <button type="button" class="close" aria-label="Close" (click)="closeAlert(2)" >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form [formGroup]="typeCharactCatForm" class="text-left top-space">
+            <div class="form-group">
+              <label for="name">Nombre del Tipo de Característica de una Categoría</label>
+              <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': (nameFormControl.errors && nameFormControl.touched) || (nameFormControl.errors && submitted), 'is-valid': nameFormControl.valid }" class="form-control" id="name">
+              <div *ngIf="nameFormControl.errors" class="invalid-feedback">
+                <div *ngIf="nameFormControl.errors.required">El campo <b>Nombre</b> es requerido.</div>
+                <div *ngIf="nameFormControl.errors.minLength">El campo <b>Nombre</b> tiene menos de 4 caracteres.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="description">Descripción del Tipo de Característica de una Categoría</label>
+              <input type="text" formControlName="description" [ngClass]="{ 'is-invalid': (descriptionFormControl.errors && descriptionFormControl.touched) || (descriptionFormControl.errors && submitted), 'is-valid': descriptionFormControl.valid }" class="form-control" id="description">
+              <div *ngIf="descriptionFormControl.errors" class="invalid-feedback">
+                <div *ngIf="descriptionFormControl.errors.required">El campo <b>Descripción</b> es requerido.</div>
+                <div *ngIf="descriptionFormControl.errors.minLength">El campo <b>Descripción</b> tiene menos de 4 caracteres.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="category_id">Categoría a la que se asocia</label>
+              <select type="text" formControlName="category_id" (change)="changeCategory()" class="form-control" id="category_id">
+                <option *ngFor="let cat of categorys" [value]='cat.id' >{{cat.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="charact_category_id">Característica de Categoría a la que se asocia</label>
+              <select type="text" formControlName="charact_category_id" (change)="changeChrCat()" [ngClass]="{ 'is-invalid': (charactCategoryIdFormControl.errors && charactCategoryIdFormControl.touched) || (charactCategoryIdFormControl.errors && submitted), 'is-valid': charactCategoryIdFormControl.valid }" class="form-control" id="charact_category_id">
+                <option *ngFor="let chract of charactCategorys" [value]='chract.id' >{{chract.name}}</option>
+              </select>
+              <div *ngIf="charactCategoryIdFormControl.errors" class="invalid-feedback">
+                <div *ngIf="charactCategoryIdFormControl.errors.required">El campo <b>Característica de Categoría</b> es requerido.</div>
+              </div>
+            </div>
+            <div class="form-group" *ngIf="isDesign">
+              <label for="design_leaf">Tipo de Diseño de Hoja</label>
+              <select type="text" formControlName="design_leaf" (change)="changeChrCat()" [ngClass]="{ 'is-invalid': (designLeafFormControl.errors && designLeafFormControl.touched) || (designLeafFormControl.errors && submitted), 'is-valid': designLeafFormControl.valid }" class="form-control" id="design_leaf">
+                <option *ngFor="let type of typesLeaf" [value]='type.id' >{{type.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="extra_price">Precio Extra del Tipo de Característica de una Categoría</label>
+              <input type="number" formControlName="extra_price" [ngClass]="{ 'is-invalid': (extraPriceFormControl.errors && extraPriceFormControl.touched) || (extraPriceFormControl.errors && submitted), 'is-valid': extraPriceFormControl.valid }" class="form-control" id="extra_price">
+              <div *ngIf="extraPriceFormControl.errors" class="invalid-feedback">
+                <div *ngIf="extraPriceFormControl.errors.required">El campo <b>Precio Extra</b> es requerido.</div>
+                <div *ngIf="extraPriceFormControl.errors.min">El campo <b>Precio Extra</b> debe tener un valor mínimo de 0.</div>
+              </div>
+            </div>
+            <div class="form-check top-space">
+              <input class="form-check-input" type="checkbox" formControlName="has_color" id="has_color">
+              <label class="form-check-label" for="has_color">
+                ¿Tiene color asignable?
+              </label>
+            </div>
+            <div class="form-group top-space" *ngIf="hasColorFormControl.value">
+              <label for="color">Color asignado al Tipo de Característica</label>
+              <input type="color" formControlName="color" [ngClass]="{ 'is-invalid': (colorFormControl.value.length == 0 && hasColorFormControl.value && colorFormControl.touched) || (colorFormControl.value.length == 0 && hasColorFormControl.value  && submitted), 'is-valid': colorFormControl.value.length > 0 && hasColorFormControl.value  }" class="form-control" id="color">
+              <div *ngIf="colorFormControl.value.length == 0 && hasColorFormControl.value " class="invalid-feedback">
+                <div>El campo <b>Color</b> es requerido.</div>
+              </div>
+            </div>
+            <div class="form-check top-space">
+              <input class="form-check-input" type="checkbox" formControlName="has_img" id="has_img">
+              <label class="form-check-label" for="has_img">
+                ¿Tiene imagen asignable?
+              </label>
+            </div>
+            <div class="form-group top-space" *ngIf="hasImgFormControl.value">
+              <label for="img">Imagen asignada al Tipo de Característica</label>
+              <input type="file" formControlName="img" #img (change)="fileImg(img.files)" [ngClass]="{ 'is-invalid': (img.files.length == 0 && hasImgFormControl.value && imgFormControl.touched) || (img.files.length == 0 && hasImgFormControl.value && submitted), 'is-valid': img.files.length > 0 && hasImgFormControl.value }" class="form-control-file" id="img">
+              <div *ngIf="img.files.length == 0 && hasImgFormControl.value" class="invalid-feedback">
+                <div>El campo <b>Imagen</b> es requerido.</div>
+              </div>
+            </div>
+            <div class="form-group top-space">
+              <label for="state">Estado de la Característica</label>
+              <select type="text" formControlName="state" [ngClass]="{ 'is-invalid': (stateFormControl.errors && stateFormControl.touched) || (stateFormControl.errors && submitted), 'is-valid': stateFormControl.valid }" class="form-control" id="state">
+                <option *ngFor="let state of states" [value]='state.id' >{{state.name}}</option>
+              </select>
+              <div *ngIf="stateFormControl.errors" class="invalid-feedback">
+                <div *ngIf="stateFormControl.errors.required">El campo <b>Estado</b> es requerido.</div>
+              </div>
+            </div>
+            <div class="row top-space">
+              <div class="col-2">
+                <button type="button" class="btn btn-chini" (click)="submit()">Crear</button>
+              </div>
+              <div class="col-2">
+                <button type="button" class="btn btn-secondary" (click)="clean()">Limpiar</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>

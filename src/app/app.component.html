@@ -1,0 +1,17 @@
+<div *ngIf="loading" class="loading-container flex-content-center">
+  <mat-spinner
+    color="accent"
+    style="margin: auto;"
+    mode="indeterminate">
+  </mat-spinner>
+</div>
+
+<header>
+  <app-nav></app-nav>
+</header>
+<router-outlet></router-outlet>
+
+<footer class="mt-auto py-3">
+  <app-footer></app-footer>
+</footer>
+

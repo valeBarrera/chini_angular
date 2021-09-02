@@ -1,0 +1,57 @@
+<main role="main" class="flex-shrink-0" style="padding: 20px;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <div class="list-group">
+          <app-sidebar-profile></app-sidebar-profile>
+        </div>
+      </div>
+      <div class="col-9">
+
+        <section class="jumbotron text-center">
+          <h3 class="color-chini">Dirección del Usuario</h3>
+          <div *ngIf="hasErrorDireccion" class="alert alert-danger fade show" role="alert" style="margin: 1%;">
+            <strong>Ha ocurrido un error!</strong> intenta nuevamente.
+            <button type="button" class="close" aria-label="Close" (click)="closeAlert(2)" >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form [formGroup]="direccion" class="text-left top-space">
+            <div class="form-group">
+              <label for="address">Su Direccion</label>
+              <input type="text" formControlName="address" [ngClass]="{ 'is-invalid': (addressFormControl.errors && submittedDireccion), 'is-valid': addressFormControl.valid }" class="form-control" id="address">
+              <div *ngIf="addressFormControl.errors" class="invalid-feedback">
+                <div *ngIf="addressFormControl.errors.required">El campo <b>Nombre</b> es requerido.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="city">Su Region</label>
+              <select type="text" (change)="changeRegion()" formControlName="region" [ngClass]="{ 'is-invalid': (regionFormControl.errors && submittedDireccion), 'is-valid': regionFormControl.valid }" class="form-control" id="region">
+                <option [value]="null">Seleccione una Región</option>
+                <option *ngFor="let reg of regions" [value]="reg.region">{{reg.region}}</option>
+              </select>
+              <div *ngIf="addressFormControl.errors" class="invalid-feedback">
+                <div *ngIf="addressFormControl.errors.required">El campo <b>Región</b> es requerido.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="city">Su Ciudad</label>
+              <select type="text" formControlName="city" [ngClass]="{ 'is-invalid': (cityFormControl.errors && submittedDireccion), 'is-valid': cityFormControl.valid }" class="form-control" id="city">
+                <option [value]="null">Seleccione una Ciudad</option>
+                <option *ngFor="let city of citys" [value]="city">{{city}}</option>
+              </select>
+              <div *ngIf="addressFormControl.errors" class="invalid-feedback">
+                <div *ngIf="addressFormControl.errors.required">El campo <b>Región</b> es requerido.</div>
+              </div>
+            </div>
+            <div class="row top-space">
+              <div class="col">
+                <button type="button" class="btn btn-chini" (click)="submitDireccion()">Guardar</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>

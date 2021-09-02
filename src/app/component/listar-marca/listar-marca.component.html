@@ -1,0 +1,115 @@
+<main role="main" class="flex-shrink-0" style="padding: 20px;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <app-sidebar></app-sidebar>
+      </div>
+      <div class="col-9">
+        <section class="jumbotron text-center">
+          <h3 class="color-chini">Lista de Marcas</h3>
+
+          <div class="card top-space">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Opciones</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let brd of brands">
+                <th scope="row">{{ brd.id }}</th>
+                <td>{{ brd.name }}</td>
+                <td>
+                   <div ngbDropdown container="body">
+                    <button class="btn btn-outline-chini btn-sm" ngbDropdownToggle>Acciones</button>
+                    <div ngbDropdownMenu>
+                      <button ngbDropdownItem *ngIf="user.role.id === 1" (click)="openModal(edit,brd,1)">Editar</button>
+                      <button ngbDropdownItem *ngIf="user.role.id === 1 || user.role.id === 2">Ver Productos</button>
+                      <div class="dropdown-divider" *ngIf="user.role.id === 1"></div>
+                      <button ngbDropdownItem *ngIf="user.role.id === 1" (click)="openModal(delete,brd,2)">Borrar</button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="d-flex justify-content-between p-2">
+            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshBrands()">
+            </ngb-pagination>
+
+            <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshBrands()">
+              <option [ngValue]="5">5 elementos por Página</option>
+              <option [ngValue]="10">10 elementos por Página</option>
+              <option [ngValue]="20">20 elementos por Página</option>
+            </select>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <ng-template #edit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Editar Marca</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="brandForm" class="text-left top-space">
+        <div class="form-group">
+          <label for="name">Nombre de la Marca</label>
+          <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': (nameFormControl.errors && nameFormControl.touched) || (nameFormControl.errors && submitted), 'is-valid': nameFormControl.valid }" class="form-control" id="name">
+          <div *ngIf="nameFormControl.errors" class="invalid-feedback">
+            <div *ngIf="nameFormControl.errors.required">El campo <b>Nombre</b> es requerido.</div>
+            <div *ngIf="nameFormControl.errors.minLength">El campo <b>Nombre</b> tiene menos de 4 caracteres.</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="description">Descripción de Marca</label>
+          <input type="text" formControlName="description" [ngClass]="{ 'is-invalid': (descriptionFormControl.errors && descriptionFormControl.touched) || (descriptionFormControl.errors && submitted), 'is-valid': descriptionFormControl.valid }" class="form-control" id="description">
+          <div *ngIf="descriptionFormControl.errors" class="invalid-feedback">
+            <div *ngIf="descriptionFormControl.errors.required">El campo <b>Descripción</b> es requerido.</div>
+            <div *ngIf="descriptionFormControl.errors.minLength">El campo <b>Descripción</b> tiene menos de 4 caracteres.</div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-chini" (click)="editBrand()">Editar Marca</button>
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+    </div>
+  </ng-template>
+  <ng-template #delete let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Borrar Marca</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>¿Está seguro de que desea borrar la marca <b>{{currentBrand.name}}</b>?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="deleteBrand()">Borrar Marca</button>
+      <button type="button" class="btn btn-chini" (click)="modal.close('Close click')">Cerrar</button>
+    </div>
+  </ng-template>
+  <ng-template #info let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Información</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>{{message}}</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-chini" (click)="modal.close('Close click')">Cerrar</button>
+    </div>
+  </ng-template>
+</main>

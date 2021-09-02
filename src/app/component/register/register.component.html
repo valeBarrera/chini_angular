@@ -1,0 +1,68 @@
+<main role="main" class="flex-shrink-0" style="padding: 20px;">
+  <div class="container-sm">
+    <section class="jumbotron text-center">
+      <h1 class="color-chini">¡Pronto serás parte del Mundo de ChiniPapelería!</h1>
+      <img class="mb-4" src="/assets/chinilogo.png" style="height: 100px; width: auto;">
+      <div *ngIf="hasError" class="alert alert-danger fade show" role="alert" style="margin: 1%;">
+        <strong>Ha ocurrido un error!</strong> intenta nuevamente.
+        <button type="button" class="close" aria-label="Close" (click)="closeAlert()" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="card" style="padding: 5%;">
+        <form [formGroup]="registerForm">
+          <div class="form-row">
+            <div class="col form-group">
+              <label for="name">Ingrese su Nombre</label>
+              <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': (nameFormControl.errors && nameFormControl.touched) || (nameFormControl.errors && submitted), 'is-valid': nameFormControl.valid }" class="form-control" id="name">
+              <div *ngIf="nameFormControl.errors" class="invalid-feedback">
+                <div *ngIf="nameFormControl.errors.required">El campo <b>Nombre</b> es requerido.</div>
+                <div *ngIf="nameFormControl.errors.minLength">El campo <b>Nombre</b> tiene menos de 4 caracteres.</div>
+              </div>
+            </div>
+            <div class="col form-group">
+              <label for="email">Ingrese su Email</label>
+              <input type="email" formControlName="email" [ngClass]="{ 'is-invalid': (emailFormControl.errors && emailFormControl.touched) || (emailFormControl.errors && submitted), 'is-valid': emailFormControl.valid }" class="form-control" id="email">
+              <div *ngIf="emailFormControl.errors" class="invalid-feedback">
+                <div *ngIf="emailFormControl.errors.required">El campo <b>Email</b> es requerido.</div>
+                <div *ngIf="emailFormControl.errors.email">El campo <b>Email</b> no tiene el formato de un correo electrónico.</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col form-group">
+              <label for="new-password">Ingrese su Contraseña</label>
+              <input type="password" formControlName="password" [ngClass]="{ 'is-invalid': (passwordFormControl.errors && passwordFormControl.touched) || (passwordFormControl.errors && submitted), 'is-valid': passwordFormControl.valid }" class="form-control" id="new-password">
+              <div *ngIf="passwordFormControl.errors" class="invalid-feedback">
+                <div *ngIf="passwordFormControl.errors.required">El campo <b>Contraseña</b> es requerido.</div>
+                <div *ngIf="passwordFormControl.errors.minlength">El campo <b>Contraseña</b> tiene menos de 6 caracteres.</div>
+                <div *ngIf="passwordFormControl.errors.maxlength">El campo <b>Contraseña</b> tiene más de 12 caracteres.</div>
+              </div>
+            </div>
+            <div class="col form-group">
+              <label for="confirm-new-password">Confirme su Contraseña</label>
+              <input type="password" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': (confirmPasswordFormControl.errors && confirmPasswordFormControl.touched) || (confirmPasswordFormControl.errors && submitted), 'is-valid': confirmPasswordFormControl.valid }" class="form-control" id="confirm-new-password">
+              <div *ngIf="confirmPasswordFormControl.errors" class="invalid-feedback">
+                <div *ngIf="confirmPasswordFormControl.errors.required">El campo <b>Confirmación de Contraseña</b> es requerido.</div>
+                <div *ngIf="confirmPasswordFormControl.errors.minlength">El campo <b>Confirmación de Contraseña</b> tiene menos de 6 caracteres.</div>
+                <div *ngIf="confirmPasswordFormControl.errors.maxlength">El campo <b>Confirmación de Contraseña</b> tiene más de 12 caracteres.</div>
+                <div *ngIf="confirmPasswordFormControl.errors.mustMatch">El campo <b>Confirmación de Contraseña</b> y la <b>Contraseña</b> ingresada con coinciden.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row top-space">
+            <div class="col">
+              <button type="button" class="btn btn-chini" (click)="submit()">Registrar Usuario</button>
+            </div>
+          </div>
+          <div class="row top-space">
+            <div class="col">
+              <button type="button" class="btn btn-secondary btn-sm" (click)="clear()">Limpiar Formulario</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</main>

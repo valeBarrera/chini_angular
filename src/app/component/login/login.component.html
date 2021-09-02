@@ -1,0 +1,57 @@
+<main role="main" class="flex-shrink-0" style="padding: 20px;">
+  <div class="container-sm">
+    <section class="jumbotron text-center">
+      <h1 class="color-chini">Por favor inicie sesión</h1>
+      <img class="mb-4" src="/assets/chinilogo.png" style="height: 100px; width: auto;">
+      <div *ngIf="isRegister" class="alert alert-dark fade show" role="alert" style="margin: 1%;">
+        <strong>{{message}}!</strong> Ya puedes iniciar sesión y comprar en nuestra tienda.
+        <button type="button" class="close" aria-label="Close" (click)="closeAlert(1)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div *ngIf="hasError" class="alert alert-danger fade show" role="alert" style="margin: 1%;">
+        <strong>Ha ocurrido un error!</strong> Intenta nuevamente.
+        <button type="button" class="close" aria-label="Close" (click)="closeAlert(2)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div *ngIf="isExpirated" class="alert alert-danger fade show" role="alert" style="margin: 1%;">
+        <strong>Su sesión ha expirado!</strong> Inicia nuevamente sesión.
+        <button type="button" class="close" aria-label="Close" (click)="closeAlert(3)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="card" style="padding: 5%;">
+        <form [formGroup]="loginForm">
+          <div class="form-group">
+            <label for="emailInput">Ingrese su Email</label>
+            <input type="email" formControlName="email" [ngClass]="{ 'is-invalid': (emailFormControl.errors && emailFormControl.touched) || (emailFormControl.errors && submitted), 'is-valid': emailFormControl.valid }" class="form-control" id="emailInput" aria-describedby="emailHelp">
+            <div *ngIf="emailFormControl.errors" class="invalid-feedback">
+              <div *ngIf="emailFormControl.errors.required">El campo <b>Email</b> es requerido.</div>
+              <div *ngIf="emailFormControl.errors.email">El campo <b>Email</b> no tiene el formato de un correo electrónico.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="passInput">Ingrese su Contraseña</label>
+            <input type="password" formControlName="password" [ngClass]="{ 'is-invalid': (passwordFormControl.errors && passwordFormControl.touched) || (passwordFormControl.errors && submitted), 'is-valid': passwordFormControl.valid }" class="form-control" id="passInput" aria-describedby="emailHelp">
+            <div *ngIf="passwordFormControl.errors" class="invalid-feedback">
+              <div *ngIf="passwordFormControl.errors.required">El campo <b>Contraseña</b> es requerido.</div>
+              <div *ngIf="passwordFormControl.errors.minlength">El campo <b>Contraseña</b> tiene menos de 6 caracteres.</div>
+              <div *ngIf="passwordFormControl.errors.maxlength">El campo <b>Contraseña</b> tiene más de 12 caracteres.</div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-chini" (click)="submit()">Iniciar Sesión</button>
+        </form>
+
+        <div class="row top-space">
+          <div class="col" *ngIf="false">
+            <button type="button" class="btn btn-link color-chini">¿Olvidaste la Contraseña?</button>
+          </div>
+          <div class="col">
+            <a type="button" class="btn btn-link color-chini" routerLink="/register">Quiero Registrarme</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>

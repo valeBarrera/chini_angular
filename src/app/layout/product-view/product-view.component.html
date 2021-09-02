@@ -1,0 +1,17 @@
+<div class="card" style="width: 18rem; margin: auto;">
+  <img [src]="product.img" class="card-img-top">
+  <div class="card-body">
+    <h5 class="card-title">{{product.name}}</h5>
+    <p class="card-text description-p">{{product.description}}</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><b>Marca:</b> {{product.brand.name}}</li>
+    <li class="list-group-item"><b>Precio:</b> {{product.price}}</li>
+    <li class="list-group-item"><b>Stock:</b> {{product.stock}}</li>
+    <li class="list-group-item"><app-rating [currentRate]="product.rating"></app-rating></li>
+  </ul>
+  <div class="card-body">
+    <a href="#" class="card-link">Ver</a>
+    <a href="#" class="card-link">Agregar a Canasta</a>
+  </div>
+</div>

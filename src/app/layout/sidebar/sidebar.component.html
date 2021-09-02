@@ -1,0 +1,15 @@
+<div class="list-group">
+  <a class="list-group-item list-group-item-action" routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+  <a class="list-group-item list-group-item-action" routerLink="/admin/add/product" routerLinkActive="active" *ngIf="user.role.id === 1">Agregar Producto</a>
+  <a class="list-group-item list-group-item-action" routerLink="/admin/list/product" routerLinkActive="active" *ngIf="user.role.id === 1 || user.role.id === 2">Listar Productos</a>
+  <a class="list-group-item list-group-item-action" routerLink="/admin/add/brand" routerLinkActive="active" *ngIf="user.role.id === 1">Agregar Marca</a>
+  <a class="list-group-item list-group-item-action" routerLink="/admin/list/brand" routerLinkActive="active" *ngIf="user.role.id === 1 || user.role.id === 2">Lista de Marcas</a>
+  <a class="list-group-item list-group-item-action" routerLink="/admin/add/category" routerLinkActive="active" *ngIf="user.role.id === 1">Agregar Categoría</a>
+  <a class="list-group-item list-group-item-action" routerLink="/admin/list/category" routerLinkActive="active" *ngIf="user.role.id === 1 || user.role.id === 2">Lista de Categorías</a>
+  <a class="list-group-item list-group-item-action" routerLink="/admin/add/charact-category" routerLinkActive="active" *ngIf="user.role.id === 1">Agregar Características de una Categoría</a>
+  <a class="list-group-item list-group-item-action" routerLink="/admin/list/charact-category" routerLinkActive="active" *ngIf="user.role.id === 1 || user.role.id === 2">Lista de Características de una Categoría</a>
+  <a class="list-group-item list-group-item-action" routerLink="/admin/add/type-charact-category" routerLinkActive="active" *ngIf="user.role.id === 1">Agregar Tipo de Características de una Categoría</a>
+  <a class="list-group-item list-group-item-action" routerLink="/admin/list/type-charact-category" routerLinkActive="active" *ngIf="user.role.id === 1 || user.role.id === 2">Lista de Tipos de Características de una Categoría</a>
+  <a class="list-group-item list-group-item-action" routerLink="/admin/add/image-type" routerLinkActive="active" *ngIf="user.role.id === 1">Agregar Tipo de Imagen a Subir</a>
+  <a class="list-group-item list-group-item-action" routerLink="/admin/list/image-type" routerLinkActive="active" *ngIf="user.role.id === 1 || user.role.id === 2">Lista de Tipos de Imagen a Subir</a>
+</div>

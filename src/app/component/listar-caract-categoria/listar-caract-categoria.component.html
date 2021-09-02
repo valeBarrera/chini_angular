@@ -1,0 +1,246 @@
+<main role="main" class="flex-shrink-0" style="padding: 20px;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <app-sidebar></app-sidebar>
+      </div>
+      <div class="col-9">
+        <section class="jumbotron text-center">
+          <h3 class="color-chini">Lista de Caraterística de Categorías</h3>
+
+          <div class="card top-space">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">¿Es Personalizable?</th>
+                <th scope="col">¿Es Opcional?</th>
+                <th scope="col">¿Es Imagen?</th>
+                <th scope="col">Categoría</th>
+                <th scope="col">Opciones</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let cat of charactCategorys">
+                <th scope="row">{{ cat.id }}</th>
+                <td>{{ cat.name }}</td>
+                <td>
+                  <ng-container *ngIf="cat.is_custom">
+                    <fa-icon [icon]="iconOk" style="color: green;"></fa-icon>
+                  </ng-container>
+                  <ng-container *ngIf="!cat.is_custom">
+                    <fa-icon [icon]="iconNot" style="color: red;"></fa-icon>
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="cat.is_optional">
+                    <fa-icon [icon]="iconOk" style="color: green;"></fa-icon>
+                  </ng-container>
+                  <ng-container *ngIf="!cat.is_optional">
+                    <fa-icon [icon]="iconNot" style="color: red;"></fa-icon>
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="cat.is_image">
+                    <fa-icon [icon]="iconOk" style="color: green;"></fa-icon>
+                  </ng-container>
+                  <ng-container *ngIf="!cat.is_image">
+                    <fa-icon [icon]="iconNot" style="color: red;"></fa-icon>
+                  </ng-container>
+                </td>
+                <td>{{ cat.category.name }}</td>
+                <td>
+                   <div ngbDropdown container="body">
+                    <button class="btn btn-outline-chini btn-sm" ngbDropdownToggle>Acciones</button>
+                    <div ngbDropdownMenu>
+                      <button ngbDropdownItem *ngIf="user.role.id === 1" (click)="openModal(edit,cat,1)">Editar</button>
+                      <button ngbDropdownItem *ngIf="(user.role.id === 1 || user.role.id === 2) && !cat.is_image" (click)="openModal(types,cat,3)">Ver Tipos</button>
+                      <div class="dropdown-divider" *ngIf="user.role.id === 1"></div>
+                      <button ngbDropdownItem *ngIf="user.role.id === 1" (click)="openModal(delete,cat,2)">Borrar</button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="d-flex justify-content-between p-2">
+            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshCharactCategorys()">
+            </ngb-pagination>
+
+            <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshCharactCategorys()">
+              <option [ngValue]="5">5 elementos por Página</option>
+              <option [ngValue]="10">10 elementos por Página</option>
+              <option [ngValue]="20">20 elementos por Página</option>
+            </select>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <ng-template #edit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Editar Caraterística de Categoría</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="charactCatForm" class="text-left top-space">
+        <div class="form-group">
+          <label for="name">Nombre de la Caraterística de Categoría</label>
+          <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': (nameFormControl.errors && nameFormControl.touched) || (nameFormControl.errors && submitted), 'is-valid': nameFormControl.valid }" class="form-control" id="name">
+          <div *ngIf="nameFormControl.errors" class="invalid-feedback">
+            <div *ngIf="nameFormControl.errors.required">El campo <b>Nombre</b> es requerido.</div>
+            <div *ngIf="nameFormControl.errors.minLength">El campo <b>Nombre</b> tiene menos de 4 caracteres.</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="description">Descripción de la Caraterística de Categoría</label>
+          <input type="text" formControlName="description" [ngClass]="{ 'is-invalid': (descriptionFormControl.errors && descriptionFormControl.touched) || (descriptionFormControl.errors && submitted), 'is-valid': descriptionFormControl.valid }" class="form-control" id="description">
+          <div *ngIf="descriptionFormControl.errors" class="invalid-feedback">
+            <div *ngIf="descriptionFormControl.errors.required">El campo <b>Descripción</b> es requerido.</div>
+            <div *ngIf="descriptionFormControl.errors.minLength">El campo <b>Descripción</b> tiene menos de 4 caracteres.</div>
+          </div>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="is_custom" id="is_custom">
+          <label class="form-check-label" for="is_custom">
+            ¿Es una Característica personalizable?
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="is_optional" id="is_optional">
+          <label class="form-check-label" for="is_optional">
+            ¿Es una Característica opcional?
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="is_design" id="is_design">
+          <label class="form-check-label" for="is_design">
+            ¿Es un Diseño de Hoja?
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" formControlName="is_image" id="is_image">
+          <label class="form-check-label" for="is_image">
+            ¿Es una Imagen?
+          </label>
+        </div>
+        <div *ngIf="isImageFormControl.value" class="form-group top-space">
+          <label for="image_type_id">Tipo de Imagen a la que se asocia</label>
+          <select type="text" formControlName="image_type_id" [ngClass]="{ 'is-invalid': (imageTypeIdFormControl.errors && imageTypeIdFormControl.touched) || (imageTypeIdFormControl.errors && submitted), 'is-valid': imageTypeIdFormControl.valid }" class="form-control" id="image_type_id">
+            <option *ngFor="let imageType of imageTypes" [value]='imageType.id' >{{imageType.name}}</option>
+          </select>
+          <div *ngIf="imageTypeIdFormControl.errors" class="invalid-feedback">
+            <div *ngIf="imageTypeIdFormControl.errors.required">El campo <b>Tipo de Imagen</b> es requerido.</div>
+          </div>
+        </div>
+        <div *ngIf="!isImageFormControl.value" class="form-group top-space">
+          <label for="price">Precio por agregar la Característica de una Categoría</label>
+          <input type="number" formControlName="price" [ngClass]="{ 'is-invalid': (priceFormControl.errors && priceFormControl.touched) || (priceFormControl.errors && submitted), 'is-valid': priceFormControl.valid }" class="form-control" id="price">
+          <div *ngIf="priceFormControl.errors" class="invalid-feedback">
+            <div *ngIf="priceFormControl.errors.required">El campo <b>Precio</b> es requerido.</div>
+            <div *ngIf="priceFormControl.errors.min">El campo <b>Precio</b> debe tener un valor mínimo de 0.</div>
+          </div>
+        </div>
+        <div class="form-group top-space">
+          <label for="state">Estado de la Característica</label>
+          <select type="text" formControlName="state" [ngClass]="{ 'is-invalid': (stateFormControl.errors && stateFormControl.touched) || (stateFormControl.errors && submitted), 'is-valid': stateFormControl.valid }" class="form-control" id="state">
+            <option *ngFor="let state of states" [value]='state.id' >{{state.name}}</option>
+          </select>
+          <div *ngIf="stateFormControl.errors" class="invalid-feedback">
+            <div *ngIf="stateFormControl.errors.required">El campo <b>Estado</b> es requerido.</div>
+          </div>
+        </div>
+        <div class="form-group top-space">
+          <label for="category_id">Categoría a la que se asocia</label>
+          <select type="text" formControlName="category_id" [ngClass]="{ 'is-invalid': (categoryIdFormControl.errors && categoryIdFormControl.touched) || (categoryIdFormControl.errors && submitted), 'is-valid': categoryIdFormControl.valid }" class="form-control" id="category_id">
+            <option *ngFor="let cat of categorys" [value]='cat.id' >{{cat.name}}</option>
+          </select>
+          <div *ngIf="categoryIdFormControl.errors" class="invalid-feedback">
+            <div *ngIf="categoryIdFormControl.errors.required">El campo <b>Descripción</b> es requerido.</div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-chini" (click)="editCat()">Editar Categoría</button>
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+    </div>
+  </ng-template>
+  <ng-template #delete let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Borrar Caraterística de Categoría</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>¿Está seguro de que desea borrar la característica de la categoría <b>{{currentChartCat.name}}</b>?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="deleteCat()">Borrar Categoría</button>
+      <button type="button" class="btn btn-chini" (click)="modal.close('Close click')">Cerrar</button>
+    </div>
+  </ng-template>
+  <ng-template #info let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Información</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>{{message}}</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-chini" (click)="modal.close('Close click')">Cerrar</button>
+    </div>
+  </ng-template>
+
+  <ng-template #types let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Tipos de Caraterísticas</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card top-space">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let types of typesCharactCategorys">
+            <th scope="row">{{ types.id }}</th>
+            <td>{{ types.name }}</td>
+            <td>{{ types.description }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="collectionSize1" [(page)]="page1" [pageSize]="pageSize1" (pageChange)="refreshTypesCharactCategorys()">
+        </ngb-pagination>
+
+        <select class="custom-select" style="width: auto" [(ngModel)]="pageSize1" (ngModelChange)="refreshTypesCharactCategorys()">
+          <option [ngValue]="5">5 elementos por Página</option>
+          <option [ngValue]="10">10 elementos por Página</option>
+          <option [ngValue]="20">20 elementos por Página</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-chini" (click)="modal.close('Close click')">Cerrar</button>
+    </div>
+  </ng-template>
+</main>

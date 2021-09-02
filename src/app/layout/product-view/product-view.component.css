@@ -1,0 +1,11 @@
+.description-p {
+  text-overflow: Ellipsis; /* will make [...] at the end */
+  height: 50px; /* change to your preferences */
+  white-space: nowrap; /* paragraph to one line */
+  overflow:hidden; /* older browsers */
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
